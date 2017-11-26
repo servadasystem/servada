@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Stop output INFO at start -->
+	<statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>warn</level>
+		</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%level %d{yyyy-MM-dd HH:mm:ss} [%t] - %logger{0} | %method |
+				%message%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="ROLLING-FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>C:/Workspace/Servada/Servada_TomcatLogs/servada.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern> %level %d{yyyy-MM-dd HH:mm:ss} [%t] - %logger{0} | %method
+				| %message%n
+			</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			rollover daily
+			<fileNamePattern>C:/Workspace/Servada/Servada_TomcatLogs/servada.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<!-- Send logs to both console and file audit -->
+	<logger name="uk.co.servada" level="debug" additivity="false">
+		<appender-ref ref="ROLLING-FILE" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<root level="info">
+		<appender-ref ref="ROLLING-FILE" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
