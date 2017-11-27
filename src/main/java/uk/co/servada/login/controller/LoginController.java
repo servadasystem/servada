@@ -11,6 +11,8 @@ public class LoginController {
 
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, HttpServletResponse response) {
+		
+		
 		return "login/login";
 	}
 	
