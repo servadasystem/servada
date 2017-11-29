@@ -1,0 +1,59 @@
+package uk.co.servada.login.service;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import uk.co.servada.dao.UserDAO;
+import uk.co.servada.entity.User;
+
+@Service("userService")
+@Transactional
+public class UserService implements UserServiceImpl {
+
+    @Autowired
+    private UserDAO dao;
+    
+    @Override
+    public void deleteUserByLoginID(String loginID) {
+        // TODO Auto-generated method stub
+        dao.deleteUserByLoginID(loginID);
+    }
+    
+    @Override
+    public User findById(int id) {     
+        return dao.findById(id);
+    }
+    
+    @Override
+    public void saveUser(User user) {
+        // TODO Auto-generated method stub
+         dao.saveUser(user);
+    }
+    @Override
+    public void updateUser(User user) {
+        // TODO Auto-generated method stub
+        User entity = dao.findById(user.getId());
+        if(entity!=null){
+            entity.setName(user.getName());
+            entity.setJoiningDate(user.getJoiningDate());
+            entity.setSalary(user.getSalary());
+            entity.setLoginID(user.getLoginID());
+        }
+    }
+
+    @Override
+    public List findAllUsers() {
+        return dao.findAllUsers();
+    }
+    @Override
+    public User findUserByLoginID(String loginID) {
+        return dao.findUserByLoginID(loginID);
+    }
+    public boolean isUserLoginIDUnique(Integer id, String loginID) {
+        User user = findUserByLoginID(loginID);
+        return ( user == null || ((id != null) && (user.getId() == id)));
+    }
+
+}
